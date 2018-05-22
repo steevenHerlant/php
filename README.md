@@ -1,20 +1,20 @@
 # php
 Learn about PHP
 
-##Install xampp
+## Install xampp
 
-##Run xampp
+## Run xampp
 /opt/lampp/lampp start
 
-##Stop xampp
+## Stop xampp
 ```bash
 /opt/lampp/lampp stop
 ```
-##Install sublime text
+## Install sublime text
 
-###Ecriture de texte en php
+### Ecriture de texte en php
 ```php
-echo "Ceci est du texte"
+echo "Ceci est du texte";
 ```
 
 
