@@ -429,4 +429,120 @@ else
 * Pour modifier un cookie, il faut refaire appel a setcookie
 
 ## Lire et écrire dans un fichier en php
+### Pour pouvoir lire/écrire dans un fichier, il faut avoir les droits correspondants
+### Ouverture du fichier (Penser à le refermer après)
+```php
+$monfichier = fopen('compteur.txt', 'r+');
+fclose($monfichier);
+```
 
+### Les différents modes de fopen
+
+| Mode | Explication                             |
+| :--: | :-------------------------------------: |
+| r    | lecture seule                           |
+| r+   | lecture + ecriture                      |
+| a    | ecriture seule + création si besoin     |
+| a+   | lecture + ecriture + création si besoin |
+
+
+### Lire dans un fichier
+* fgetc => caractère par caractère
+* fgets => ligne par ligne
+
+```php
+<?php
+// 1 : on ouvre le fichier
+$monfichier = fopen('compteur.txt', 'r+');
+ // 2 : on lit la première ligne du fichier
+$ligne = fgets($monfichier);
+ // 3 : quand on a fini de l'utiliser, on ferme le fichier
+fclose($monfichier);
+?>
+```
+
+### Ecrire dans un fichier
+* fputs => ecrire à partir de la position du curseur
+* fseek => replacer le curseur
+
+```php
+<?php
+$monfichier = fopen('compteur.txt', 'r+');
+$pages_vues = fgets($monfichier); // On lit la première ligne (nombre de pages vues)
+$pages_vues += 1; // On augmente de 1 ce nombre de pages vues
+fseek($monfichier, 0); // On remet le curseur au début du fichier
+fputs($monfichier, $pages_vues); // On écrit le nouveau nombre de pages vues
+fclose($monfichier);
+echo '<p>Cette page a été vue ' . $pages_vues . ' fois !</p>';
+?>
+```
+
+## SGBD et php
+### Connexion à la base
+* Penser à activer pdo
+```php
+<?php
+try
+{
+    $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '');
+}
+catch (Exception $e)
+{
+        die('Erreur : ' . $e->getMessage());
+}
+?>
+```
+
+### Récupérer les données
+```php
+$reponse = $bdd->query('SELECT * FROM table');
+
+while ($donnees = $reponse->fetch())
+{
+?>
+    <p>
+    <strong>Jeu</strong> : <?php echo $donnees['champs1']; ?><br />
+    Le possesseur de ce jeu est : <?php echo $donnees['champs2']; ?>, et il le vend à <?php echo $donnees['champ2']; ?> euros !<br />
+    Ce jeu fonctionne sur <?php echo $donnees['champs3']; ?> et on peut y jouer à <?php echo $donnees['champs4']; ?> au maximum<br />
+    <?php echo $donnees['champs5']; ?> a laissé ces commentaires sur <?php echo $donnees['champs2']; ?> : <em><?php echo $donnees['champs4']; ?></em>
+   </p>
+<?php
+}
+$reponse->closeCursor();
+```
+
+### Construction de requêtes en fonction de variables
+```php
+<?php
+$req = $bdd->prepare('SELECT nom FROM jeux_video WHERE possesseur = ? AND prix <= ?');
+$req->execute(array($_GET['possesseur'], $_GET['prix_max']));
+
+//avec des marqueurs associatifs
+$req = $bdd->prepare('SELECT nom, prix FROM jeux_video WHERE possesseur = :possesseur AND prix <= :prixmax');
+$req->execute(array('possesseur' => $_GET['possesseur'], 'prixmax' => $_GET['prix_max']));
+```
+
+### Avoir les erreurs pdo plus clairement
+```php
+<?php
+$bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+?>
+```
+
+### Ecrire des données
+* Ajouter des données
+```php
+<?php
+try
+{
+    $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '');
+}
+catch(Exception $e)
+{
+        die('Erreur : '.$e->getMessage());
+}
+// On ajoute une entrée dans la table jeux_video
+$bdd->exec('INSERT INTO jeux_video(nom, possesseur, console, prix, nbre_joueurs_max, commentaires) VALUES(\'Battlefield 1942\', \'Patrick\', \'PC\', 45, 50, \'2nde guerre mondiale\')');
+echo 'Le jeu a bien été ajouté !';
+?>
+```
