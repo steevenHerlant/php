@@ -318,7 +318,7 @@ echo $chaine;
 ?>
 ```
 
-**date => Récupérer la date
+** date => Récupérer la date
 
 | Paramètre | Description |
 | :-------: | :---------: |
