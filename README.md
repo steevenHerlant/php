@@ -411,3 +411,22 @@ else
 
 ## Session cookies en php
 ### Les sessions
+* session_start() pour démarrer une session (à faire sur chaque page pour la conserver)
+* session_destroy() pour la killer. Par défaut un timeout le fait automatiquement
+* stocker ce que l'on veut dans $_SESSION[]
+
+### Les cookies
+* A la différence des sessions (qui sont stockées côté serveur), les cookies sont stockés dans un fichier sur le PC client
+* Création d'un cookie
+```php
+<?php setcookie('pseudo', 'M@teo21', time() + 365*24*3600); ?>
+```
+* Le cookie doit être appelé avant tout code html
+* Afficher un cookie
+```php
+<?php echo $_COOKIE['pseudo']; ?>
+```
+* Pour modifier un cookie, il faut refaire appel a setcookie
+
+## Lire et écrire dans un fichier en php
+
