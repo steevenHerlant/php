@@ -171,7 +171,7 @@ echo $coordonnees['ville'];
 ?>
 ```
 * Parcourir un tableau
-	* Par boucle for
+  * Par boucle for
 ```php
 <?php
 $prenoms = array ('François', 'Michel', 'Nicole', 'Véronique', 'Benoît');
@@ -181,8 +181,7 @@ for ($numero = 0; $numero < 5; $numero++)
 }
 ?>
 ```
-
-	* Par boucle foreach
+  * Par boucle foreach
 ```php
 <?php
 $prenoms = array ('François', 'Michel', 'Nicole', 'Véronique', 'Benoît');
@@ -202,7 +201,7 @@ foreach($coordonnees as $cle => $element)
 }
 ?>
 ```
-	* Afficher un tableau avec sa structure
+  * Afficher un tableau avec sa structure
 ```php
 <?php
 
