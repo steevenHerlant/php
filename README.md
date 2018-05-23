@@ -36,10 +36,8 @@ sur plusieurs lignes */
 ```php
 <?php phpinfo(); ?>
 ```
-
 * Retrouver la ligne Loaded Configuration File pour connaître le fichier conf 
 utilisé
-
 * Editer ce fichier et modifier les lignes error_reporting et display_errors
 
 error_reporting=E_ALL & ~E_DEPRECATED & ~E_STRICT
@@ -47,7 +45,6 @@ display_errors=On
 
 ### Les variables en php
 * Bases
-
 ```php
 <?php
 //initialisation
@@ -58,9 +55,7 @@ echo $age_du_visiteur;
 echo 'le visiteur a ' . $age_du_visiteur . ' ans.';
 ?>
 ```
-
 * Calculs
-
 ```php
 $nombre = 2 + 4; // $nombre prend la valeur 6
 $nombre = 5 - 1; // $nombre prend la valeur 4
@@ -75,7 +70,6 @@ $nombre = 10 % 3; // $nombre prend la valeur 1 car il reste 1
 
 ### Les Conditions en php
 * Structure If
-
 ```php
 <?php
 $autorisation_entrer = "Oui";
@@ -93,9 +87,7 @@ else // SINON (la variable ne contient ni Oui ni Non, on ne peut pas agir)
 }
 ?>
 ```
-
 * Structure switch
-
 ```php
 <?php
 $note = 10;
@@ -127,7 +119,6 @@ switch ($note) // on indique sur quelle variable on travaille
 }
 ?>
 ```
-
 * Structure Ternaire
 ```php
 <?php
@@ -146,9 +137,7 @@ while ($continuer_boucle == true)
 }
 ?>
 ```
-
 * Structure for
-
 ```php
 <?php
 for ($nombre_de_lignes = 1; $nombre_de_lignes <= 100; $nombre_de_lignes++)
@@ -160,7 +149,6 @@ for ($nombre_de_lignes = 1; $nombre_de_lignes <= 100; $nombre_de_lignes++)
 
 ### Les tableaux en php
 * Les tableaux numérotés
-
 ```php
 <?php
 //Affectation
@@ -169,9 +157,7 @@ $prenoms = array ('François', 'Michel', 'Nicole', 'Véronique', 'Benoît');
 echo $prenoms[1];
 ?>
 ```
-
 * Les tableaux associatifs
-
 ```php
 <?php
 //Affectation
@@ -184,7 +170,6 @@ $coordonnees = array (
 echo $coordonnees['ville'];
 ?>
 ```
-
 * Parcourir un tableau
 	* Par boucle for
 ```php
@@ -196,9 +181,7 @@ for ($numero = 0; $numero < 5; $numero++)
 }
 ?>
 ```
-
 	* Par boucle foreach
-
 ```php
 <?php
 $prenoms = array ('François', 'Michel', 'Nicole', 'Véronique', 'Benoît');
@@ -218,9 +201,7 @@ foreach($coordonnees as $cle => $element)
 }
 ?>
 ```
-
 	* Afficher un tableau avec sa structure
-
 ```php
 <?php
 
@@ -243,14 +224,11 @@ echo '</pre>';
 
 ?>
 ```
-
 * Rerchercher dans un tableau
 	* Verifier si une clé existe
-
 ```php
 <?php array_key_exists('cle', $array); ?>
 ```
-
 	* Verifier si une valeur existe
 ```php
 <?php
@@ -265,7 +243,6 @@ if (in_array('Cerise', $fruits))
 }
 ?>
 ```
-
 	* Récupérer la clé d'une valeur dans l'array
 ```php
 <?php
@@ -278,17 +255,13 @@ echo '"Banane" se trouve en position ' . $position;
 ```
 
 ### Les fonctions en php
-
 * Appeler une fonction
-
 ```php
 <?php
 calculCube(param1,param2);
 ?>
 ```
-
 * Récupérer la valeur d'une fonction
-
 ```php
 <?php
 $volume = calculCube(4);
@@ -296,7 +269,6 @@ $volume = calculCube(4);
 ```
 * Quelques fonctions prêtes à l'emploi
 	* strlen => longueur d'une chaîne
-
 ```php
 <?php
 $phrase = 'Bonjour tout le monde ! Je suis une phrase !';
@@ -305,18 +277,14 @@ $longueur = strlen($phrase);
 echo 'La phrase ci-dessous comporte ' . $longueur . ' caractères :<br />' . $phrase;
 ?>
 ```
-
 	* str_replace => rechercher et remplacer
-
 ```php
 <?php
 $ma_variable = str_replace('b', 'p', 'bim bam boum');
 echo $ma_variable; // "pim pam poum"
 ?>
 ```
-
 	* str_shuffle => mélanger les lettres
-
 ```php
 <?php
 $chaine = 'Cette chaîne va être mélangée !';
@@ -325,9 +293,7 @@ $chaine = str_shuffle($chaine);
 echo $chaine;
 ?>
 ```
-
 	* strtolower => écrire en minuscules (strtoupper existe aussi)
-
 ```php
 <?php
 $chaine = 'COMMENT CA JE CRIE TROP FORT ???';
@@ -336,9 +302,7 @@ $chaine = strtolower($chaine);
 echo $chaine;
 ?>
 ```
-
 	* date => Récupérer la date
-
 | Paramètre | Description |
 | :-------: | :---------: |
 | H         | Heure       |
