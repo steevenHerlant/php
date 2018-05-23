@@ -312,3 +312,75 @@ echo $chaine;
 | d         | Jour        |
 | m         | Mois        |
 | Y         | Année       |
+
+```php
+<?php
+
+$jour = date('d');
+$mois = date('m');
+$annee = date('Y');
+$heure = date('H');
+$minute = date('i');
+
+echo 'Bonjour ! Nous sommes le ' . $jour . '/' . $mois . '/' . $annee . 'et il est ' . $heure. ' h ' . $minute;
+?>
+```
+
+### Créer ses propres fonctions
+```php
+<?php
+//sans retour
+function DireBonjour($nom)
+{
+    echo 'Bonjour ' . $nom . ' !<br />';
+}
+
+DireBonjour('Marie');
+
+//avec retour
+function VolumeCone($rayon, $hauteur)
+{
+   $volume = $rayon * $rayon * 3.14 * $hauteur * (1/3); // calcul du volume
+   return $volume; // indique la valeur à renvoyer, ici le volume
+}
+
+$volume = VolumeCone(3, 1);
+echo 'Le volume d\'un cône de rayon 3 et de hauteur 1 est de ' . $volume;
+?>
+```
+
+## Erreurs les plus courantes en php
+### parse error
+* Problème de point virgule
+* Problème de concaténation
+* Problème d'accolade
+
+### undefined function
+* Fonction n'existe pas
+* extenstion php contenant la fonction n'est pas activée
+
+### wrong parameter count
+* oublie de paramètre dans la fonction
+
+## Erreurs plus rares en php
+### headers already sent by ...
+* la fonction utilisée doit être tout en haut de la page
+
+### maximum execution time exceeded
+* boucle infinie
+
+## Inclusions en php
+```php
+<?php
+include("menus.php");
+?>
+```
+
+## Recuperer des paramètres en php
+sur une url du type https://www.toto.com?nom=pascal&prenom=anthony
+```php
+<?php
+$nom = $_GET['nom'];
+$prenom = $_GET['prenom'];
+?>
+```
