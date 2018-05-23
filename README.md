@@ -181,6 +181,7 @@ for ($numero = 0; $numero < 5; $numero++)
 }
 ?>
 ```
+
 	* Par boucle foreach
 ```php
 <?php
