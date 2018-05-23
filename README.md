@@ -384,3 +384,30 @@ $nom = $_GET['nom'];
 $prenom = $_GET['prenom'];
 ?>
 ```
+### Il faut penser à tester les paramètres !!!
+```php
+<?php
+if (isset($_GET['prenom']) AND isset($_GET['nom']))
+{
+    echo 'Bonjour ' . $_GET['prenom'] . ' ' . $_GET['nom'] . ' !';
+}
+else
+{
+    echo 'Il faut renseigner un nom et un prénom !';
+}
+?>
+```
+
+
+## Variables superglobales en php
+### Quelques exemples (utiliser print_r pour voir ce qu'elles contiennent)
+* $_SERVER
+* $_ENV
+* $_SESSION
+* $_COOKIE
+* $_GET
+* $_POST
+* $_FILES
+
+## Session cookies en php
+### Les sessions
