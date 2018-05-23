@@ -319,6 +319,7 @@ echo $chaine;
 ```
 
 **date => Récupérer la date
+
 | Paramètre | Description |
 | :-------: | :---------: |
 | H         | Heure       |
