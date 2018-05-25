@@ -544,5 +544,339 @@ catch(Exception $e)
 // On ajoute une entrée dans la table jeux_video
 $bdd->exec('INSERT INTO jeux_video(nom, possesseur, console, prix, nbre_joueurs_max, commentaires) VALUES(\'Battlefield 1942\', \'Patrick\', \'PC\', 45, 50, \'2nde guerre mondiale\')');
 echo 'Le jeu a bien été ajouté !';
+
+$req = $bdd->prepare('INSERT INTO jeux_video(nom, possesseur, console, prix, nbre_joueurs_max, commentaires) VALUES(:nom, :possesseur, :console, :prix, :nbre_joueurs_max, :commentaires)');
+
+$req->execute(array(
+
+    'nom' => $nom,
+
+    'possesseur' => $possesseur,
+
+    'console' => $console,
+
+    'prix' => $prix,
+
+    'nbre_joueurs_max' => $nbre_joueurs_max,
+
+    'commentaires' => $commentaires
+
+    ));
+
+
+echo 'Le jeu a bien été ajouté !';
+?>
+```
+
+* Modifier des données
+```php
+<?php
+$bdd->exec('UPDATE jeux_video SET prix = 10, nbre_joueurs_max = 32 WHERE nom = \'Battlefield 1942\'');
+
+$req = $bdd->prepare('UPDATE jeux_video SET prix = :nvprix, nbre_joueurs_max = :nv_nb_joueurs WHERE nom = :nom_jeu');
+$req->execute(array(
+    'nvprix' => $nvprix,
+    'nv_nb_joueurs' => $nv_nb_joueurs,
+    'nom_jeu' => $nom_jeu
+?>
+```
+
+* Supprimer des données
+Même chose que pour le reste avec DELETE
+
+* Les erreurs en SQL
+```php
+<?php
+$reponse = $bdd->query('SELECT nom FROM jeux_video') or die(print_r($bdd->errorInfo()));
+?>
+```
+
+### Fonctions SQL
+* Fonctions scalaires
+** UPPER() => Mettre en majuscules
+** LOWER() => Mettre en minuscules
+** LENGTH() => Longueur d'une chaîne
+** ROUND() => arrondir un nombre décimal
+
+* Fonctions d'agrégat
+AVG() => Donne la moyenne des champs passés en paramètre
+SUM() => Donne la somme
+MAX() => Retourne la valeur maximale
+MIN() => Retourne la valeur minimale
+COUNT() => Compte le nombre d'entrées
+
+* GROUP BY
+Permet de regrouper les données
+```sql
+SELECT AVG(prix) AS prix_moyen, console FROM jeux_video GROUP BY console
+```
+
+* HAVING
+Permet de faire du WHERE une fois les données regroupées
+```sql
+SELECT AVG(prix) AS prix_moyen, console FROM jeux_video GROUP BY console HAVING prix_moyen <= 10
+```
+
+### Les Dates en SQL
+* Les différents types de dates
+** DATE : stocke une date au format AAAA-MM-JJ (Année-Mois-Jour) ;
+** TIME : stocke un moment au format HH:MM:SS (Heures:Minutes:Secondes) ;
+** DATETIME : stocke la combinaison d'une date et d'un moment de la journée au format AAAA-MM-JJ HH:MM:SS. Ce type de champ est donc plus précis ;
+** TIMESTAMP : stocke le nombre de secondes passées depuis le 1er janvier 1970 à 00 h 00 min 00 s ;
+** YEAR : stocke une année, soit au format AA, soit au format AAAA.
+
+* Exemle avec DATE
+```sql
+SELECT pseudo, message, date FROM minichat WHERE date = '2010-04-02'
+```
+
+* Exemple avec DATETIME
+```sql
+SELECT pseudo, message, date FROM minichat WHERE date = '2010-04-02 15:28:22'
+SELECT pseudo, message, date FROM minichat WHERE date >= '2010-04-02 15:28:22'
+SELECT pseudo, message, date FROM minichat WHERE date >= '2010-04-02 00:00:00' AND date <= '2010-04-18 00:00:00'
+SELECT pseudo, message, date FROM minichat WHERE date BETWEEN '2010-04-02 00:00:00' AND '2010-04-18 00:00:00'
+```
+
+* Fonctions de gestion de dates
+** NOW() => Obtenir la date et l'heure actuelle (AAAA-MM-JJ HH:MM:SS)
+** CURDATE() => (AAAA-MM-JJ) 
+** CURTIME() => (HH:MM:SS)
+** HOUR() => Récupère les heures
+** MINUTE() => Récupère les minutes
+** SECOND() => Récupère les secondes
+
+## Programmation objet en php
+### créer une classe
+```php
+<?php
+class Personnage
+{
+	private $_force = 50; // Valeur par défaut
+	private $_localisation;
+	private $_experience;
+	private $_degats;
+
+	public function deplacer()
+	{
+
+	}
+
+	public function frapper(Personnage $persoAFrapper)
+	{
+		$persoAFrapper->_degats += $this->_force;
+	}
+	public function afficherExperience()
+	{
+		echo $this->_experience;
+	}
+	public function gagnerExperience()
+	{
+		$this->_experience = $this->experience + 1;
+	}
+}
+?>
+```
+
+### Créer et manipuler un objet
+```php
+<?php
+$perso = new Personnage;
+$perso->parler();
+$perso2 = new Personnage;
+$perso2->frapper($perso);
+?>
+```
+
+### Accesseurs et mutateurs
+```php
+<?php
+// accesseurs
+public function degats()
+	{
+    	return $this->_degats;
+  	}
+
+// mutateurs
+public function setForce($force)
+  {
+    if (!is_int($force)) // S'il ne s'agit pas d'un nombre entier.
+    {
+      trigger_error('La force d\'un personnage doit être un nombre entier', E_USER_WARNING);
+      return;
+    }
+    if ($force > 100) // On vérifie bien qu'on ne souhaite pas assigner une valeur supérieure à 100.
+    {
+      trigger_error('La force d\'un personnage ne peut dépasser 100', E_USER_WARNING);
+      return;
+    }
+    $this->_force = $force;
+  }
+?>
+```
+
+### Constructeurs
+```php
+<?php
+public function __construct($force, $degats) // Constructeur demandant 2 paramètres
+{
+	echo 'Voici le constructeur !'; // Message s'affichant une fois que tout objet est créé.
+    $this->setForce($force); // Initialisation de la force.
+    $this->setDegats($degats); // Initialisation des dégâts.
+    $this->_experience = 1; // Initialisation de l'expérience à 1.
+}
+?>
+```
+
+### Constantes de classe
+```php
+<?php
+class Personnage
+{
+	const FORCE_PETITE = 20
+
+	public function __construct($forceInitiale)
+	{
+		$this->setForce($forceInitiale);
+	}
+}
+
+$perso = new Personnage(Personnage::FORCE_MOYENNE);
+?>
+```
+
+### Méthodes Statiques
+```php
+<?php
+class Personnage
+{
+	public static function parler()
+  	{
+    	echo 'Je vais tous vous tuer !';
+  	}
+}
+
+Personnage::parler();
+?>
+```
+
+### Attributs statiques
+```php
+<?php
+class Personnage
+{
+	private static $_textADire = "Je vais vous tuer !";
+
+	public static function parler()
+	{
+		echo self::$_textADire;
+	}
+
+}
+
+?>
+```
+
+###Manipulation de données stockées
+```php
+<?php
+
+class Personnage
+
+{
+  private $_id;
+  private $_nom;
+  private $_forcePerso;
+  private $_degats;
+  private $_niveau;
+  private $_experience;
+  // Liste des getters
+  public function id()
+  {
+    return $this->_id;
+  }
+  public function nom()
+  {
+    return $this->_nom;
+  }
+  public function forcePerso()
+  {
+    return $this->_forcePerso;
+  }
+  public function degats()
+  {
+    return $this->_degats;
+  }
+  public function niveau()
+  {
+    return $this->_niveau;
+  }
+  public function experience()
+  {
+    return $this->_experience;
+  }
+  // Liste des setters
+  public function setId($id)
+  {
+    // On convertit l'argument en nombre entier.
+    // Si c'en était déjà un, rien ne changera.
+    // Sinon, la conversion donnera le nombre 0 (à quelques exceptions près, mais rien d'important ici).
+    $id = (int) $id;
+    // On vérifie ensuite si ce nombre est bien strictement positif.
+    if ($id > 0)
+    {
+      // Si c'est le cas, c'est tout bon, on assigne la valeur à l'attribut correspondant.
+      $this->_id = $id;
+    }
+  }
+  public function setNom($nom)
+  {
+    // On vérifie qu'il s'agit bien d'une chaîne de caractères.
+    if (is_string($nom))
+    {
+      $this->_nom = $nom;
+    }
+  }
+  public function setForcePerso($forcePerso)
+  {
+    $forcePerso = (int) $forcePerso;
+    if ($forcePerso >= 1 && $forcePerso <= 100)
+    {
+      $this->_forcePerso = $forcePerso;
+    }
+  }
+  public function setDegats($degats)
+  {
+    $degats = (int) $degats;
+    if ($degats >= 0 && $degats <= 100)
+    {
+      $this->_degats = $degats;
+    }
+  }
+  public function setNiveau($niveau)
+  {
+    $niveau = (int) $niveau;
+    if ($niveau >= 1 && $niveau <= 100)
+    {
+      $this->_niveau = $niveau;
+    }
+  }
+  public function setExperience($experience)
+  {
+    $experience = (int) $experience;
+    if ($experience >= 1 && $experience <= 100)
+    {
+      $this->_experience = $experience;
+    }
+  }
+}
+$request = $db->query('SELECT id, nom, forcePerso, degats, niveau, experience FROM personnages');
+while ($donnees = $request->fetch(PDO::FETCH_ASSOC)) // Chaque entrée sera récupérée et placée dans un array.
+{
+  // On passe les données (stockées dans un tableau) concernant le personnage au constructeur de la classe.
+  // On admet que le constructeur de la classe appelle chaque setter pour assigner les valeurs qu'on lui a données aux attributs correspondants.
+  $perso = new Personnage($donnees);
+  echo $perso->nom(), ' a ', $perso->forcePerso(), ' de force, ', $perso->degats(), ' de dégâts, ', $perso->experience(), ' d\'expérience et est au niveau ', $perso->niveau();
+}
 ?>
 ```
